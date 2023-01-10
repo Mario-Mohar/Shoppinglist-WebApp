@@ -136,7 +136,7 @@
     </header>
     {% for row in all_items %}
     <div class="list">
-        <input type="checkbox"> {{ row.name }}
+        <input onclick="deleteItem()" type="checkbox"> {{ row.name }}
     </div>
     {% endfor %}
     <div class="buttonNewDiv"><button onclick="addItem()" class="buttonNew">+</button></div>
@@ -151,6 +151,20 @@
             formData.append('csrfmiddlewaretoken', token);
 
             fetch('/mylist/', {
+                method: 'POST',
+                body: formData
+            })
+            window.location.reload();
+        }
+
+        function deleteItem(id) {
+            let token = '{{ csrf_token }}';
+
+            let formData = new FormData();
+            formData.append('id', id);
+            formData.append('csrfmiddlewaretoken', token);
+
+            fetch('/mylist/delete/', {
                 method: 'POST',
                 body: formData
             })
