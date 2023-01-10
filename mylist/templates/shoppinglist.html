@@ -1,12 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meine Einkaufsliste</title>
+    <style>
+        body {
+            background-color: rgba(0, 0, 0, 0.1);
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: rgb(90, 90, 90);
+            color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        header .titel {
+            font-size: 12px;
+        }
+
+        header .nav {
+            display: flex;
+            align-items: center;
+        }
+
+        header .nav nav {
+            display: flex;
+            align-items: center;
+        }
+
+        header .nav nav ul {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        header .nav nav ul li {
+            margin: 0 10px;
+        }
+
+        header .nav nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        header .nav nav ul li a:hover {
+            color: #ccc;
+        }
+
+        .buttonNewDiv {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgb(90, 90, 90);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .buttonNewDiv:hover {
+            background-color: rgb(70, 70, 70);
+        }
+
+        .buttonNew {
+            background-color: rgb(90, 90, 90);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .buttonNew:hover {
+            background-color: rgb(70, 70, 70);
+        }
+
+        .buttonAdd {
+            background-color: rgb(90, 90, 90);
+            color: #fff;
+            border: none;
+            width: 40px;
+            height: 40px;
+            font-size: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .buttonAdd:hover {
+            background-color: rgb(70, 70, 70);
+        }
+
+        .list {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            font-size: medium;
+        }
+    </style>
 </head>
+
 <body>
-    
+    <header>
+        <div class="titel">
+            <h1>My Shopping App!</h1>
+        </div>
+        <div class="nav">
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shoppinglist.html">Shoppinglist</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    {% for row in all_items %}
+    <div class="list">
+        <input type="checkbox"> {{ row.name }}
+    </div>
+    {% endfor %}
+    <div class="buttonNewDiv"><button onclick="addItem()" class="buttonNew">+</button></div>
+
+    <script>
+        function addItem() {
+            let name = prompt('Please enter the name of the item');
+            let token = '{{ csrf_token }}';
+
+            let formData = new FormData();
+            formData.append('name', name);
+            formData.append('csrfmiddlewaretoken', token);
+
+            fetch('/mylist/', {
+                method: 'POST',
+                body: formData
+            })
+            window.location.reload();
+        }
+    </script>
 </body>
+
 </html>
