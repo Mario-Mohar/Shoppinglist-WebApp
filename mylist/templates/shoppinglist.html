@@ -154,22 +154,32 @@
                 method: 'POST',
                 body: formData
             })
-            window.location.reload();
+            location.reload();
         }
 
-        function deleteItem(id) {
+        function deleteItem(itemName) {
             let token = '{{ csrf_token }}';
-
             let formData = new FormData();
-            formData.append('id', id);
+            formData.append('name', itemName);
             formData.append('csrfmiddlewaretoken', token);
-
-            fetch('/mylist/delete/', {
-                method: 'POST',
+        
+            fetch(`/mylist/delete/${itemName}/`, {
+                method: 'DELETE',
                 body: formData
             })
-            window.location.reload();
+            .then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('An error occurred while deleting the item.');
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                alert('An error occurred while deleting the item.');
+            });
         }
+        
     </script>
 </body>
 
