@@ -136,7 +136,7 @@
     </header>
     {% for row in all_items %}
     <div class="list">
-        <input onclick="deleteItem()" type="checkbox"> {{ row.name }}
+        <input onclick="deleteItem('{{ row.name }}')" type="checkbox"> {{ row.name }}
     </div>
     {% endfor %}
     <div class="buttonNewDiv"><button onclick="addItem()" class="buttonNew">+</button></div>

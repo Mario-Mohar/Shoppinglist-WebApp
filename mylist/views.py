@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import shoppingItem
+from django.http import HttpResponse, HttpResponseNotFound
 
 # Create your views here.
 def mylist(request):
@@ -13,5 +14,5 @@ def delete_item(request, item_name):
         item = shoppingItem.objects.get(name=item_name)
         item.delete()
     except shoppingItem.DoesNotExist:
-        return HttpResponse(f'Item with name {item_name} not found', status=404)
+        return HttpResponseNotFound(f'Item with name {item_name} not found')
     return HttpResponse(f'Item with name {item_name} deleted successfully')
